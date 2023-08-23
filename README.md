@@ -21,7 +21,7 @@ Four directories containing Terraform files describing a VPC and an Instance as 
 - initialize terraform in all stacks an validate the configuration
   - `terramate run -- terraform init`
   - `terramate run -- terraform validate`
-  - The Terramate configuration in `terramate.tm.hcl` takes care that we cache the providers in a `.tf_plugin_cache_dir` by setting the Terraform environment variable `TF_PLUGIN_CACHE_DIR`. This speeds up `terraform init` phase as each provider version is downloaded only once.
+  - The Terramate configuration in `terramate.tm.hcl` ensures that we cache the providers in a `.tf_plugin_cache_dir` by setting the Terraform environment variable `TF_PLUGIN_CACHE_DIR`. This speeds up `terraform init` phase as each provider version is downloaded only once.
   - We can ignore the deprecation warning as we use the depricated null data source for demo reasons.
 - run a plan in all stacks
   - `terramate --log-level info run -- terraform plan`
@@ -52,12 +52,13 @@ Four directories containing Terraform files describing a VPC and an Instance as 
 - `generate_providers.tm.hcl.example` rename to enable providers generation
 - run `terramate generate` to generate `gen_providers.tf` in each directory
 - run `terramate run -- rm providers.tf` to remove old config
-- set global `tf_provider_null_version_constraint` on any level e.g. in stack or per environment in a e.g. `config.tm.hcl` file:
+- set global `tf_provider_null_version_constraint` on any level e.g. in stack or per environment in a e.g. `/environments/prod/config.tm.hcl` file:
   ```hcl
   globals {
-    tf_provider_null_version_constraint = "~> 3.0"
+    tf_provider_null_version_constraint = "3.2.1"
   }
   ```
+- run `terramate generate` again to show changes
 
 ### set and export globals as locals
 
