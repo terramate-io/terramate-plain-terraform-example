@@ -1,0 +1,26 @@
+
+# The backend configuration is the same in each stack, so we can generate it unconditionally
+
+
+# set a global default to use
+# this global can be overwritten on each level of the hierarchy and e.g. set per stack or per environment
+
+globals {
+  tf_provider_null_version_constraint = "~> 3.0"
+}
+
+generate_hcl "gen_providers.tf" {
+  content {
+    terraform {
+      required_providers {
+        null = {
+          source  = "hashicorp/null"
+          version = tm_try(global.tf_provider_null_version_constraint, "~> 3.0")
+        }
+      }
+    }
+
+    provider "null" {
+    }
+  }
+}
